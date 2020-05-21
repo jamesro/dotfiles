@@ -40,12 +40,14 @@
 (toggle-scroll-bar -1)
 
 ;; full screen by default
-(setq initial-frame-alist (quote ((fullscreen . maximized))))
+;; (setq initial-frame-alist (quote ((fullscreen . maximized))))
 ;; remove startup screen
 (setq inhibit-startup-screen t)
 (setq inhibit-startup-message t)
 
-
+;; relative line numbering
+(display-line-numbers-mode 1)
+(setq display-line-numbers 'relative)
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; undo tree mode ;;
@@ -110,11 +112,11 @@
 ;;;;;;;;;;
 ;; misc ;;
 ;;;;;;;;;;
-(split-window-right)              ;; C-x 3
-(other-window 1)                              ;; C-x 0
+;;(split-window-right)              ;; C-x 3
+;;(other-window 1)                              ;; C-x 0
 ;; toggle enable-local-variables :all           ;; Load *all* locals.
     ;; toggle org-confirm-babel-evaluate nil    ;; Eval *all* blocks.
-      (find-file "~/.emacs.d/init.org")
+;;      (find-file "~/.emacs.d/init.org")
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; Latex Previews ;;
