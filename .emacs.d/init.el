@@ -41,30 +41,15 @@
 
 ;; full screen by default
 ;; (setq initial-frame-alist (quote ((fullscreen . maximized))))
+
 ;; remove startup screen
 (setq inhibit-startup-screen t)
 (setq inhibit-startup-message t)
 
 ;; relative line numbering
-(display-line-numbers-mode 1)
-(setq display-line-numbers 'relative)
+(global-display-line-numbers-mode 1)
+(setq display-line-numbers-type 'relative)
 
-;;;;;;;;;;;;;;;;;;;;
-;; undo tree mode ;;
-;;;;;;;;;;;;;;;;;;;;
-;;turn on everywhere
-(global-undo-tree-mode 1)
-;; make ctrl-z undo
-(global-set-key (kbd "C-z") 'undo)
-;; make ctrl-Z redo
-(defalias 'redo 'undo-tree-redo)
-(global-set-key (kbd "C-S-z") 'redo)
-;; Execute (undo-tree-visualize) then navigate along the tree to witness
-;; changes being made to your file live!
-;; Each node in the undo tree should have a timestamp.
-(setq undo-tree-visualizer-timestamps t)
-;; Show a diff window displaying changes between undo nodes.
-(setq undo-tree-visualizer-diff t)
 
 ;;;;;;;;;;;;;;
 ;; Org-mode ;; 
@@ -86,7 +71,7 @@
 		 ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-refile-targets (quote ((org-agenda-files :maxlevel . 6))))
  '(org-todo-keywords (quote ((sequence "TODO(t)" "DONE(d)"))))
- '(package-selected-packages (quote (org-roam undo-tree))))
+ '(package-selected-packages (quote (auctex org-roam undo-tree))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -118,26 +103,37 @@
     ;; toggle org-confirm-babel-evaluate nil    ;; Eval *all* blocks.
 ;;      (find-file "~/.emacs.d/init.org")
 
-;;;;;;;;;;;;;;;;;;;;
-;; Latex Previews ;;
-;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;
+;; Latex ;;
+;;;;;;;;;;;
 ;; (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 ;; C-x p RET for compiling and previewing pdf in LaTeX
-(defun reload-pdf ()
-  (interactive
-  (let* ((fname buffer-file-name)
-        (fname-no-ext (substring fname 0 -4))
-        (pdf-file (concat fname-no-ext ".pdf"))
-        (cmd (format "pdflatex %s" fname)))
-    (delete-other-windows)
-    (split-window-horizontally)
-    (split-window-vertically)
-    (shell-command cmd)
-    (other-window 2)
-    (find-file pdf-file)
-    (balance-windows))))
+;(defun reload-pdf ()
+;  (interactive
+;  (let* ((fname buffer-file-name)
+;        (fname-no-ext (substring fname 0 -4))
+;        (pdf-file (concat fname-no-ext ".pdf"))
+;        (cmd (format "pdflatex %s" fname)))
+;    (delete-other-windows)
+;    (split-window-horizontally)
+;    (split-window-vertically)
+;    (shell-command cmd)
+;    (other-window 2)
+;    (find-file pdf-file)
+;    (balance-windows))))
+;
+;(global-set-key "\C-x\p" 'reload-pdf)
 
-(global-set-key "\C-x\p" 'reload-pdf)
+;(load "auctex.el" nil t t)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+(add-hook 'LaTeX-mode-hook 'visual-line-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
 
 
 ;;;;;;;;;;;;;;
