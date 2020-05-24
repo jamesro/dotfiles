@@ -54,30 +54,67 @@
 ;;;;;;;;;;;;;;
 ;; Org-mode ;; 
 ;;;;;;;;;;;;;;
+(use-package org
+  :mode ("\\org\\'" . org-mode)
+  :bind
+  (("C-c l" . org-store-link)
+   ("C-c a" . org-agenda)
+   ("C-c b" . org-iswitchb)
+   ("C-c c" . org-capture))
+  :custom
+  (org-src-window-setup 'current-window)
+  (org-return-follows-link t)
+  (org-agenda-diary-file "~/org/diary.org")
+;    (org-babel-load-languages
+;   '((emacs-lisp . t)
+;     (python . t)
+;     (dot . t)))
+  (org-confirm-babel-evaluate nil)
+  (org-catch-invisible-edits 'show)
+  (org-preview-latex-image-directory "/tmp/ltximg/")
+  :custom-face
+;  (variable-pitch ((t (:family "Libre Baskerville"))))
+  (org-document-title ((t (:weight bold :height 1.5))))
+  (org-done ((t (:strike-through t :weight bold))))
+  (org-headline-done ((t (:strike-through t))))
+  (org-level-1 ((t (:height 1.3 :weight bold))))
+;  (org-level-2 ((t (:height 1.2))))
+;  (org-level-3 ((t (:height 1.1))))
+  (org-image-actual-width (/ (display-pixel-width) 2))
+  :custom
+;  (org-startup-indented nil)
+  (org-hide-leading-stars nil)
+  (org-hide-emphasis-markers nil)
+  (org-pretty-entities nil)
+  (org-adapt-indentation nil))
+
+(require 'org)
+
+
+(defun james/style-org ()
+  (setq line-spacing 0.2)
+  (variable-pitch-mode +1)
+  (mapc
+   (lambda (face) ;; Other fonts with fixed-pitch.
+     (set-face-attribute face nil :inherit 'fixed-pitch))
+   (list 'org-code
+         'org-block
+         'org-table
+         'org-verbatim
+         'org-block-begin-line
+         'org-block-end-line
+         'org-meta-line
+         'org-document-info-keyword)))
+
+(add-hook 'org-mode-hook #'james/style-org)
+
+
+
 (setq org-default-notes-file "~/Dropbox/organizer.org")
-(define-key global-map "\C-cc" 'org-capture)
 (setq initial-buffer-choice "~/Dropbox/organizer.org")
 (global-set-key (kbd "C-c o") 
                 (lambda () (interactive) (find-file "~/Dropbox/organizer.org")))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("~/Dropbox/organizer.org")))
- '(org-format-latex-options
-   (quote
-    (:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
-		 ("begin" "$1" "$" "$$" "\\(" "\\["))))
- '(org-refile-targets (quote ((org-agenda-files :maxlevel . 6))))
- '(org-todo-keywords (quote ((sequence "TODO(t)" "DONE(d)"))))
- '(package-selected-packages (quote (auctex org-roam undo-tree))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
 (setq james/org-agenda-directory "~/org/")
 (setq org-capture-templates
       `(("i" "inbox" entry (file ,(concat james/org-agenda-directory "inbox.org"))
@@ -91,6 +128,21 @@
 
 
 
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files (quote ("~/Dropbox/organizer.org")))
+ '(org-format-latex-options
+   (quote
+    (:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+		 ("begin" "$1" "$" "$$" "\\(" "\\["))))
+ '(org-refile-targets (quote ((org-agenda-files :maxlevel . 6))))
+ '(org-todo-keywords (quote ((sequence "TODO(t)" "DONE(d)"))))
+ '(package-selected-packages (quote (auctex org-roam undo-tree))))
 
 
 
