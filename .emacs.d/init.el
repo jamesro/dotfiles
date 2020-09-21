@@ -3,9 +3,8 @@
   (require 'package)
   (add-to-list
    'package-archives
-   ;; '("melpa" . "http://stable.melpa.org/packages/") ; many packages won't show if using stable
-   '("melpa" . "http://melpa.milkbox.net/packages/")
-   t))
+   '("melpa" . "http://melpa.org/packages/") t)) ;; many packages won't show if using stable
+  ;; '("melpa" . "https://melpa.milkbox.net/packages/") t))
 
 
 ;; Added by Package.el.  This must come before configurations of
@@ -13,7 +12,6 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
-
 
 ;; Bootstrap `use-package`
 ;; for org-roam
@@ -47,8 +45,8 @@
 (setq inhibit-startup-message t)
 
 ;; relative line numbering
-(global-display-line-numbers-mode 1)
-(setq display-line-numbers-type 'relative)
+;(global-display-line-numbers-mode 1)
+;(setq display-line-numbers-type 'relative)
 
 
 ;;;;;;;;;;;;;;
@@ -78,7 +76,7 @@
   (org-done ((t (:strike-through t :weight bold))))
   (org-headline-done ((t (:strike-through t))))
   (org-level-1 ((t (:height 1.3 :weight bold))))
-;  (org-level-2 ((t (:height 1.2))))
+  (org-level-2 ((t (:height 1.2))))
 ;  (org-level-3 ((t (:height 1.1))))
   (org-image-actual-width (/ (display-pixel-width) 2))
   :custom
@@ -114,11 +112,13 @@
 (setq initial-buffer-choice "~/Dropbox/organizer.org")
 (global-set-key (kbd "C-c o") 
                 (lambda () (interactive) (find-file "~/Dropbox/organizer.org")))
+(global-set-key (kbd "C-c i")
+		(lambda () (interactive) (find-file "~/org/inbox.org")))
 
 (setq james/org-agenda-directory "~/org/")
 (setq org-capture-templates
       `(("i" "inbox" entry (file ,(concat james/org-agenda-directory "inbox.org"))
-         "* TODO %?")
+         "*** TODO %?")
         ("e" "email" entry (file+headline ,(concat james/org-agenda-directory "emails.org") "Emails")
          "* TODO [#A] Reply: %a :@home:" :immediate-finish t)
         ("l" "link" entry (file ,(concat james/org-agenda-directory "inbox.org"))
@@ -135,14 +135,25 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-agenda-files (quote ("~/Dropbox/organizer.org")))
+ '(org-adapt-indentation nil)
+ '(org-agenda-diary-file "~/org/diary.org")
+ '(org-agenda-files '("~/Dropbox/organizer.org"))
+ '(org-catch-invisible-edits 'show)
+ '(org-confirm-babel-evaluate nil)
  '(org-format-latex-options
-   (quote
-    (:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
-		 ("begin" "$1" "$" "$$" "\\(" "\\["))))
- '(org-refile-targets (quote ((org-agenda-files :maxlevel . 6))))
- '(org-todo-keywords (quote ((sequence "TODO(t)" "DONE(d)"))))
- '(package-selected-packages (quote (auctex org-roam undo-tree))))
+   '(:foreground default :background default :scale 1.2 :html-foreground "Black" :html-background "Transparent" :html-scale 1.0 :matchers
+		 ("begin" "$1" "$" "$$" "\\(" "\\[")))
+ '(org-hide-emphasis-markers nil)
+ '(org-hide-leading-stars nil)
+ '(org-pretty-entities nil)
+ '(org-preview-latex-image-directory "/tmp/ltximg/")
+ '(org-refile-targets '((org-agenda-files :maxlevel . 2)))
+ '(org-return-follows-link t)
+ '(org-roam-directory "/home/james/org/")
+ '(org-src-window-setup 'current-window)
+ '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
+ '(package-selected-packages
+   '(gruvbox-theme tron-legacy-theme auctex org-roam undo-tree)))
 
 
 
@@ -204,3 +215,32 @@
                ("C-c n g" . org-roam-graph))
               :map org-mode-map
               (("C-c n i" . org-roam-insert))))
+
+
+;; Tron legacy theme https://github.com/ianpan870102/tron-legacy-emacs-theme
+;(unless (package-installed-p 'tron-legacy-theme)
+;  (package-refresh-contents)
+;  (package-install 'tron-legacy-theme))
+;(use-package tron-legacy-theme
+;  :config
+;  (setq tron-legacy-theme-softer-bg t)
+;  (setq tron-legacy-theme-vivid-cursor t)
+;  (load-theme 'tron-legacy t))
+
+
+;; gruvbox theme
+(load-theme 'gruvbox t)
+
+
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-document-title ((t (:weight bold :height 1.5))))
+ '(org-done ((t (:strike-through t :weight bold))))
+ '(org-headline-done ((t (:strike-through t))))
+ '(org-image-actual-width (/ (display-pixel-width) 2))
+ '(org-level-1 ((t (:height 1.3 :weight bold))))
+ '(org-level-2 ((t (:height 1.2)))))
