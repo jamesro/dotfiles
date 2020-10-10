@@ -153,7 +153,7 @@
  '(org-src-window-setup 'current-window)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(gruvbox-theme tron-legacy-theme auctex org-roam undo-tree)))
+   '(jetbrains-darcula-theme gruvbox-theme tron-legacy-theme auctex org-roam undo-tree)))
 
 
 
@@ -230,7 +230,8 @@
 
 ;; gruvbox theme
 (load-theme 'gruvbox t)
-
+;; jetbrains darcula theme
+;(load-theme 'jetbrains-darcula t)
 
 
 (custom-set-faces
