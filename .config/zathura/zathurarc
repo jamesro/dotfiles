@@ -2,7 +2,7 @@
 # See man `man zathurarc'
 
 # Open document in fit-width mode by default
-set adjust-open "width"
+set adjust-open "best-fit"
 
 # One page per row by default
 set pages-per-row 1
@@ -20,7 +20,7 @@ set guioptions ""
 # zathurarc-dark
 
 set font "inconsolata 15"
-set default-bg "#2D2D2D" #00
+set default-bg rgba(0,0,0,0.75)
 set default-fg "#F7F7F6" #01
 
 set statusbar-fg "#B0B0B0" #04
@@ -48,7 +48,7 @@ set notification-bg "#90A959" #0B
 set notification-fg "#151515" #00
 
 set recolor "true"
-set recolor-lightcolor "#2D2D2D" #00
+set recolor-lightcolor rgba(0,0,0,0)
 set recolor-darkcolor "#E0E0E0" #06
 set recolor-reverse-video "true"
 set recolor-keephue "true"

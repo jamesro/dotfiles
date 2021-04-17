@@ -4,7 +4,7 @@
   (add-to-list
    'package-archives
    '("melpa" . "http://melpa.org/packages/") t)) ;; many packages won't show if using stable
-  ;; '("melpa" . "https://melpa.milkbox.net/packages/") t))
+;; '("melpa" . "https://melpa.milkbox.net/packages/") t))
 
 
 ;; Added by Package.el.  This must come before configurations of
@@ -45,8 +45,8 @@
 (setq inhibit-startup-message t)
 
 ;; relative line numbering
-;(global-display-line-numbers-mode 1)
-;(setq display-line-numbers-type 'relative)
+;; (global-display-line-numbers-mode 1)
+					;(setq display-line-numbers-type 'relative)
 
 
 ;;;;;;;;;;;;;;
@@ -62,32 +62,32 @@
   :custom
   (org-src-window-setup 'current-window)
   (org-return-follows-link t)
-  (org-agenda-diary-file "~/org/diary.org")
-;    (org-babel-load-languages
-;   '((emacs-lisp . t)
-;     (python . t)
-;     (dot . t)))
+  (org-agenda-diary-file "~/Dropbox/org/diary.org")
+					;    (org-babel-load-languages
+					;   '((emacs-lisp . t)
+					;     (python . t)
+					;     (dot . t)))
   (org-confirm-babel-evaluate nil)
   (org-catch-invisible-edits 'show)
   (org-preview-latex-image-directory "/tmp/ltximg/")
   :custom-face
-;  (variable-pitch ((t (:family "Libre Baskerville"))))
+					;  (variable-pitch ((t (:family "Libre Baskerville"))))
   (org-document-title ((t (:weight bold :height 1.5))))
   (org-done ((t (:strike-through t :weight bold))))
   (org-headline-done ((t (:strike-through t))))
   (org-level-1 ((t (:height 1.3 :weight bold))))
   (org-level-2 ((t (:height 1.2))))
-;  (org-level-3 ((t (:height 1.1))))
+					;  (org-level-3 ((t (:height 1.1))))
   (org-image-actual-width (/ (display-pixel-width) 2))
   :custom
-;  (org-startup-indented nil)
+  (org-startup-indented nil)
+  (org-startup-truncated nil)
   (org-hide-leading-stars nil)
   (org-hide-emphasis-markers nil)
   (org-pretty-entities nil)
   (org-adapt-indentation nil))
 
 (require 'org)
-
 
 (defun james/style-org ()
   (setq line-spacing 0.2)
@@ -106,16 +106,14 @@
 
 (add-hook 'org-mode-hook #'james/style-org)
 
-
-
-(setq org-default-notes-file "~/Dropbox/organizer.org")
-(setq initial-buffer-choice "~/Dropbox/organizer.org")
+(setq org-default-notes-file "~/Dropbox/org/organizer.org")
+(setq initial-buffer-choice "~/Dropbox/org/organizer.org")
 (global-set-key (kbd "C-c o") 
-                (lambda () (interactive) (find-file "~/Dropbox/organizer.org")))
+                (lambda () (interactive) (find-file "~/Dropbox/org/organizer.org")))
 (global-set-key (kbd "C-c i")
-		(lambda () (interactive) (find-file "~/org/inbox.org")))
+		(lambda () (interactive) (find-file "~/Dropbox/org/inbox.org")))
 
-(setq james/org-agenda-directory "~/org/")
+(setq james/org-agenda-directory "~/Dropbox/org/")
 (setq org-capture-templates
       `(("i" "inbox" entry (file ,(concat james/org-agenda-directory "inbox.org"))
          "*** TODO %?")
@@ -126,18 +124,49 @@
         ("c" "org-protocol-capture" entry (file ,(concat james/org-agenda-directory "inbox.org"))
          "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)))
 
+(use-package org-agenda
+  :after org
+  :custom
+  (org-agenda-prefix-format '((agenda . " %i %-20:c%?-12t%-6e% s")
+			      (todo   . " %i %-20:c %-6e")
+			      (tags   . " %i %-20:c")
+			      (search . " %i %-20:c"))))
 
+(setq org-agenda-custom-commands
+      '(("d" "Today's Tasks"
+	 ((tags-todo
+	   "GHD+ACTIVE+PRIORITY=\"A\""
+	   ((org-agenda-files '("~/Dropbox/org/goals.org"))
+	    (org-agenda-overriding-header "Primary goals this month")))
+	  (tags-todo
+	   "GHD+ACTIVE+PRIORITY=\"C\""
+	   ((org-agenda-files '("~/Dropbox/org/goals.org"))
+	    (org-agenda-overriding-header "Secondary goals this month")))
+	  (agenda "" ((org-agenda-span 1)
+		      (org-agenda-overriding-header "Today's tasks")))))
 
-
-
+	("w" "This Week's Tasks"
+	 ((tags-todo
+	   "GHD+ACTIVE+PRIORITY=\"A\""
+	   ((org-agenda-files '("~/org/goals.org"))
+	    (org-agenda-overriding-header "Primary goals this month")))
+	  (tags-todo
+	   "GHD+ACTIVE+PRIORITY=\"C\""
+	   ((org-agenda-files '("~/org/goals.org"))
+	    (org-agenda-overriding-header "Secondary goals this month")))
+	  (agenda))))
+      )
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Custom-set-variables ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-adapt-indentation nil)
- '(org-agenda-diary-file "~/org/diary.org")
- '(org-agenda-files '("~/Dropbox/organizer.org"))
+ '(org-agenda-diary-file "~/org/diary.org" t)
+ '(org-agenda-files '("~/PhD/master_plan.org" "~/Dropbox/org/organizer.org"))
  '(org-catch-invisible-edits 'show)
  '(org-confirm-babel-evaluate nil)
  '(org-format-latex-options
@@ -149,22 +178,16 @@
  '(org-preview-latex-image-directory "/tmp/ltximg/")
  '(org-refile-targets '((org-agenda-files :maxlevel . 2)))
  '(org-return-follows-link t)
- '(org-roam-directory "/home/james/org/")
+ '(org-roam-directory "~/Dropbox/org/")
  '(org-src-window-setup 'current-window)
+ '(org-startup-indented nil)
+ '(org-startup-truncated nil)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(jetbrains-darcula-theme gruvbox-theme tron-legacy-theme auctex org-roam undo-tree)))
+   '(flyspell-correct-ivy good-scroll conda elpy doom-modeline magit vscode-dark-plus-theme neotree treemacs jetbrains-darcula-theme gruvbox-theme tron-legacy-theme auctex org-roam undo-tree))
+ '(safe-local-variable-values '((TeX-master . Main))))
 
 
-
-;;;;;;;;;;
-;; misc ;;
-;;;;;;;;;;
-;;(split-window-right)              ;; C-x 3
-;;(other-window 1)                              ;; C-x 0
-;; toggle enable-local-variables :all           ;; Load *all* locals.
-    ;; toggle org-confirm-babel-evaluate nil    ;; Eval *all* blocks.
-;;      (find-file "~/.emacs.d/init.org")
 
 
 ;;;;;;;;;;;
@@ -172,23 +195,23 @@
 ;;;;;;;;;;;
 ;; (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
 ;; C-x p RET for compiling and previewing pdf in LaTeX
-;(defun reload-pdf ()
-;  (interactive
-;  (let* ((fname buffer-file-name)
-;        (fname-no-ext (substring fname 0 -4))
-;        (pdf-file (concat fname-no-ext ".pdf"))
-;        (cmd (format "pdflatex %s" fname)))
-;    (delete-other-windows)
-;    (split-window-horizontally)
-;    (split-window-vertically)
-;    (shell-command cmd)
-;    (other-window 2)
-;    (find-file pdf-file)
-;    (balance-windows))))
-;
-;(global-set-key "\C-x\p" 'reload-pdf)
+					;(defun reload-pdf ()
+					;  (interactive
+					;  (let* ((fname buffer-file-name)
+					;        (fname-no-ext (substring fname 0 -4))
+					;        (pdf-file (concat fname-no-ext ".pdf"))
+					;        (cmd (format "pdflatex %s" fname)))
+					;    (delete-other-windows)
+					;    (split-window-horizontally)
+					;    (split-window-vertically)
+					;    (shell-command cmd)
+					;    (other-window 2)
+					;    (find-file pdf-file)
+					;    (balance-windows))))
+					;
+					;(global-set-key "\C-x\p" 'reload-pdf)
 
-;(load "auctex.el" nil t t)
+					;(load "auctex.el" nil t t)
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
@@ -197,17 +220,18 @@
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
-
+(setq LaTeX-item-indent 0)
+(add-hook 'LaTeX-mode-hook 'turn-on-auto-fill)
 
 ;;;;;;;;;;;;;;
 ;; Org-Roam ;;
 ;;;;;;;;;;;;;;
 (use-package org-roam
-      :hook
-      (after-init . org-roam-mode)
-      :custom
-      (org-roam-directory "/home/james/org/")
-      :bind (:map org-roam-mode-map
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory "~/org/")
+  :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
                ("C-c n f" . org-roam-find-file)
                ("C-c n j" . org-roam-jump-to-index)
@@ -217,23 +241,9 @@
               (("C-c n i" . org-roam-insert))))
 
 
-;; Tron legacy theme https://github.com/ianpan870102/tron-legacy-emacs-theme
-;(unless (package-installed-p 'tron-legacy-theme)
-;  (package-refresh-contents)
-;  (package-install 'tron-legacy-theme))
-;(use-package tron-legacy-theme
-;  :config
-;  (setq tron-legacy-theme-softer-bg t)
-;  (setq tron-legacy-theme-vivid-cursor t)
-;  (load-theme 'tron-legacy t))
-
-
-;; gruvbox theme
-(load-theme 'gruvbox t)
-;; jetbrains darcula theme
-;(load-theme 'jetbrains-darcula t)
-
-
+;;;;;;;;;;;;;;;;;;;;;;
+;; Custom-set-faces ;;
+;;;;;;;;;;;;;;;;;;;;;;
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -245,3 +255,71 @@
  '(org-image-actual-width (/ (display-pixel-width) 2))
  '(org-level-1 ((t (:height 1.3 :weight bold))))
  '(org-level-2 ((t (:height 1.2)))))
+
+
+;;;;;;;;;;;;
+;; Themes ;;
+;;;;;;;;;;;;
+;; Tron legacy theme https://github.com/ianpan870102/tron-legacy-emacs-theme
+;; (unless (package-installed-p 'tron-legacy-theme)
+;;  (package-refresh-contents)
+;;  (package-install 'tron-legacy-theme))
+;; (use-package tron-legacy-theme
+;;  :config
+;; ;; (setq tron-legacy-theme-softer-bg t)
+;;  (setq tron-legacy-theme-vivid-cursor t)
+;; ;; (setq tron-legacy-theme-dark-fg-bright-comments t)
+;;  (load-theme 'tron-legacy t))
+
+
+;; Gruvbox theme
+(load-theme 'gruvbox-dark-hard t)
+
+;; Jetbrains darcula theme
+;; (load-theme 'jetbrains-darcula t)
+
+;; VSCode dark plus
+;(use-package vscode-dark-plus-theme
+;  :ensure t
+;  :config
+;  (load-theme 'vscode-dark-plus t))
+
+
+;;;;;;;;;;;;;
+;; Neotree ;;
+;;;;;;;;;;;;;
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+
+;;;;;;;;;;;;;;;;;;;
+;; Doom-modeline ;;
+;;;;;;;;;;;;;;;;;;;
+(require 'doom-modeline)
+(doom-modeline-init)
+
+;;;;;;;;;;
+;; elpy ;;
+;;;;;;;;;;
+(elpy-enable)
+
+;;;;;;;;;;;;;
+;; pyvenve ;;
+;;;;;;;;;;;;;
+(setenv "WORKON_HOME" "~/miniconda3/envs")
+(pyvenv-mode 1)
+
+;;;;;;;;;;;;;;;;;
+;; good-scroll ;;
+;;;;;;;;;;;;;;;;;
+(good-scroll-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; fly-spell with hunspell backend ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq ispell-program-name (executable-find "hunspell")
+      ispell-dictionary "en_US")
+(use-package flyspell-correct-ivy
+  :ensure t
+  :demand t
+  :bind (:map flyspell-mode-map
+              ("C-c $" . flyspell-correct-word-generic)))
