@@ -165,8 +165,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(org-adapt-indentation nil)
- '(org-agenda-diary-file "~/org/diary.org" t)
+ '(org-agenda-diary-file "~/org/diary.org")
  '(org-agenda-files '("~/PhD/master_plan.org" "~/Dropbox/org/organizer.org"))
+ '(org-agenda-prefix-format
+   '((agenda . " %i %-20:c%?-12t%-6e% s")
+     (todo . " %i %-20:c %-6e")
+     (tags . " %i %-20:c")
+     (search . " %i %-20:c")))
  '(org-catch-invisible-edits 'show)
  '(org-confirm-babel-evaluate nil)
  '(org-format-latex-options
@@ -178,13 +183,13 @@
  '(org-preview-latex-image-directory "/tmp/ltximg/")
  '(org-refile-targets '((org-agenda-files :maxlevel . 2)))
  '(org-return-follows-link t)
- '(org-roam-directory "~/Dropbox/org/")
+ '(org-roam-directory "~/org/")
  '(org-src-window-setup 'current-window)
  '(org-startup-indented nil)
  '(org-startup-truncated nil)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(flyspell-correct-ivy good-scroll conda elpy doom-modeline magit vscode-dark-plus-theme neotree treemacs jetbrains-darcula-theme gruvbox-theme tron-legacy-theme auctex org-roam undo-tree))
+   '(counsel flyspell-correct-ivy good-scroll conda elpy doom-modeline magit vscode-dark-plus-theme neotree treemacs jetbrains-darcula-theme gruvbox-theme tron-legacy-theme auctex org-roam undo-tree))
  '(safe-local-variable-values '((TeX-master . Main))))
 
 
@@ -279,10 +284,10 @@
 ;; (load-theme 'jetbrains-darcula t)
 
 ;; VSCode dark plus
-;(use-package vscode-dark-plus-theme
-;  :ensure t
-;  :config
-;  (load-theme 'vscode-dark-plus t))
+					;(use-package vscode-dark-plus-theme
+					;  :ensure t
+					;  :config
+					;  (load-theme 'vscode-dark-plus t))
 
 
 ;;;;;;;;;;;;;
@@ -323,3 +328,14 @@
   :demand t
   :bind (:map flyspell-mode-map
               ("C-c $" . flyspell-correct-word-generic)))
+
+;;;;;;;;;;;;;;
+;; ivy mode ;;
+;;;;;;;;;;;;;;
+(ivy-mode 1)
+(use-package ivy :demand
+  :config
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "%d/%d "
+	enable-recursive-minibuffers t))
+(global-set-key "\C-s" 'swiper)
