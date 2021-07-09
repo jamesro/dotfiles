@@ -179,6 +179,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(enable-recursive-minibuffers t)
+ '(frame-background-mode 'light)
+ '(ivy-display-style 'fancy)
+ '(ivy-re-builders-alist '((t . ivy--regex-plus)) t)
+ '(ivy-use-selectable-prompt t)
+ '(ivy-use-virtual-buffers t)
  '(org-adapt-indentation nil)
  '(org-agenda-diary-file "~/Dropbox/org/diary.org")
  '(org-agenda-files '("~/PhD/master_plan.org" "~/Dropbox/org/organizer.org"))
@@ -210,7 +216,7 @@
  '(org-startup-truncated nil)
  '(org-todo-keywords '((sequence "TODO(t)" "DONE(d)")))
  '(package-selected-packages
-   '(outline-magic counsel flyspell-correct-ivy good-scroll conda elpy doom-modeline magit vscode-dark-plus-theme neotree treemacs jetbrains-darcula-theme gruvbox-theme tron-legacy-theme auctex org-roam undo-tree))
+   '(nano-theme quelpa-use-package quelpa writeroom-mode outline-magic counsel flyspell-correct-ivy good-scroll conda elpy doom-modeline magit vscode-dark-plus-theme neotree treemacs jetbrains-darcula-theme gruvbox-theme tron-legacy-theme auctex org-roam undo-tree))
  '(safe-local-variable-values '((TeX-master . Main))))
 
 
@@ -258,6 +264,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(nano-mono ((t (:weight semi-light :height 120 :family "Roboto Mono"))))
+ '(nano-mono-alt ((t (:weight semi-light :height 120 :family "Fira Code"))))
+ '(nano-sans ((t (:weight semi-light :height 120 :family "Roboto"))))
+ '(nano-serif ((t (:weight semi-light :height 120 :family "Roboto Slab"))))
  '(org-document-title ((t (:weight bold :height 1.5))))
  '(org-done ((t (:strike-through t :weight bold))))
  '(org-headline-done ((t (:strike-through t))))
@@ -270,8 +280,8 @@
 ;; Themes ;;
 ;;;;;;;;;;;;
 ;;; Gruvbox theme
-;; (load-theme 'gruvbox-dark-hard t)
- (load-theme 'gruvbox-light-hard t)
+;; (load-theme 'gruvbox-dark-soft t)
+(load-theme 'gruvbox-light-soft t)
 ;;; Jetbrains darcula theme
 ;; (load-theme 'jetbrains-darcula t)
 ;;; VSCode dark plus
@@ -417,3 +427,25 @@
   '(progn
     (require 'outline-magic)
     (define-key outline-minor-mode-map (kbd "<C-tab>") 'outline-cycle)))
+
+
+;; (unless (package-installed-p 'quelpa)
+;;   (with-temp-buffer
+;;     (url-insert-file-contents "https://raw.githubusercontent.com/quelpa/quelpa/master/quelpa.el")
+;;     (eval-buffer)
+;;     (quelpa-self-upgrade)))
+
+;; (quelpa
+;;  '(quelpa-use-package
+;;    :fetcher git
+;;    :url "https://github.com/quelpa/quelpa-use-package.git"))
+;; (require 'quelpa-use-package)
+
+;; (use-package nano-theme
+;;   :ensure nil
+;;   :defer t
+;;   :quelpa (nano-theme
+;;            :fetcher github
+;;            :repo "rougier/nano-theme"))
+;; (load-theme 'nano t)
+;; (nano-light)
